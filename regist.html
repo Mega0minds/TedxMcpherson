@@ -1,212 +1,215 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Register Here</title>
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
- <!-- Load the QRCode library -->
- <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-  <!-- SMTP (optional) -->
-  <script src="https://smtpjs.com/v3/smtp.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register Here</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load the QRCode library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <!-- SMTP (optional) -->
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
 </head>
+
 <body class="bg-gray-100 text-black p-6">
-  <div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow">
-    <h2 class="text-2xl font-bold text-red-600 text-center">Register for TEDxMcpherson U</h2>
-    <form id="registration-form" class="mt-6">
-      <!-- Registration ID (required) -->
-      <label class="block">Registration ID</label>
-      <input type="text" id="registration-id" class="w-full border p-2 rounded mb-3" required />
+    <div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow">
+        <h2 class="text-2xl font-bold text-red-600 text-center">Register for TEDxMcpherson U</h2>
+        <form id="registration-form" class="mt-6">
+            <!-- Registration ID (required) -->
+            <label class="block">Registration ID</label>
+            <input type="text" id="registration-id" class="w-full border p-2 rounded mb-3"/>
 
-      <label class="block">First Name</label>
-      <input type="text" id="first-name" class="w-full border p-2 rounded mb-3" required />
+            <label class="block">First Name</label>
+            <input type="text" id="first-name" class="w-full border p-2 rounded mb-3" required />
 
-      <label class="block">Last Name</label>
-      <input type="text" id="last-name" class="w-full border p-2 rounded mb-3" required />
+            <label class="block">Last Name</label>
+            <input type="text" id="last-name" class="w-full border p-2 rounded mb-3" required />
 
-      <label class="block">Level</label>
-      <input type="number" id="level" class="w-full border p-2 rounded mb-3" required />
+            <label class="block">Level</label>
+            <input type="number" id="level" class="w-full border p-2 rounded mb-3" required />
 
-      <!-- New Input: Phone Number -->
-      <label class="block">Phone Number</label>
-      <input type="tel" id="phone-number" class="w-full border p-2 rounded mb-3" required />
+            <!-- New Input: Phone Number -->
+            <label class="block">Phone Number</label>
+            <input type="tel" id="phone-number" class="w-full border p-2 rounded mb-3" required />
 
-      <label class="block">Email</label>
-      <input type="email" id="email" class="w-full border p-2 rounded mb-3" required />
+            <label class="block">Email</label>
+            <input type="email" id="email" class="w-full border p-2 rounded mb-3" required />
 
-      <!-- New Input: Department (as text) -->
-      <label class="block">Department</label>
-      <input type="text" id="department" class="w-full border p-2 rounded mb-3" required />
+            <!-- New Input: Department (as text) -->
+            <label class="block">Department</label>
+            <input type="text" id="department" class="w-full border p-2 rounded mb-3" required />
 
-      <!-- Volunteer checkbox and volunteer role dropdown -->
-      <div class="mt-4">
-        <label class="inline-flex items-center">
-          <input type="checkbox" id="volunteer-checkbox" class="form-checkbox text-red-600" />
-          <span class="ml-2 font-semibold">I want to volunteer</span>
-        </label>
-        <div id="volunteer-options" class="hidden mt-4">
-          <label>Select Volunteer Role</label>
-          <select id="volunteer-role" class="w-full border p-2 rounded">
-            <option value="Media">Media</option>
-            <option value="Publicity">Publicity</option>
-            <option value="Protocol/Ushering">Protocol/Ushering</option>
-            <option value="Logistics/Technical">Logistics/Technical</option>
-            <option value="Welfare">Welfare</option>
-          </select>
+            <!-- Volunteer checkbox and volunteer role dropdown -->
+            <div class="mt-4">
+                <label class="inline-flex items-center">
+                    <input type="checkbox" id="volunteer-checkbox" class="form-checkbox text-red-600" />
+                    <span class="ml-2 font-semibold">I want to volunteer</span>
+                </label>
+                <div id="volunteer-options" class="hidden mt-4">
+                    <label>Select Volunteer Role</label>
+                    <select id="volunteer-role" class="w-full border p-2 rounded">
+                        <option value="Media">Media</option>
+                        <option value="Publicity">Publicity</option>
+                        <option value="Protocol/Ushering">Protocol/Ushering</option>
+                        <option value="Logistics/Technical">Logistics/Technical</option>
+                        <option value="Welfare">Welfare</option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit" id="submit-btn" class="w-full mt-4 bg-red-600 text-white p-2 rounded">
+                Submit
+            </button>
+        </form>
+
+        <!-- Canvas for QR Code -->
+        <div class="mt-4 flex justify-center">
+            <div id="qr-code"></div>
         </div>
-      </div>
-
-      <button type="submit" id="submit-btn" class="w-full mt-4 bg-red-600 text-white p-2 rounded">
-        Submit
-      </button>
-    </form>
-
-    <!-- Canvas for QR Code -->
-    <div class="mt-4 flex justify-center">
-      <div id="qr-code"></div>
     </div>
-  </div>
 
-  <!-- Firebase & Firestore Scripts -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
-    import {
-      getFirestore,
-      collection,
-      query,
-      where,
-      getDocs,
-      updateDoc,
-      addDoc
-    } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+    <!-- Firebase & Firestore Scripts -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
+        import {
+            getFirestore,
+            collection,
+            query,
+            where,
+            getDocs,
+            updateDoc,
+            addDoc
+        } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
 
-    // Firebase configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyB9kLH6eoQsFZ3PuEvUqiVF9b8Wxc1Z9k4",
-      authDomain: "tedx-959ab.firebaseapp.com",
-      projectId: "tedx-959ab",
-      storageBucket: "tedx-959ab.firebasestorage.app",
-      messagingSenderId: "470975416341",
-      appId: "1:470975416341:web:f8cdea8e4c05fd9da9661c",
-      measurementId: "G-53PPS0GT2L"
-    };
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyB9kLH6eoQsFZ3PuEvUqiVF9b8Wxc1Z9k4",
+            authDomain: "tedx-959ab.firebaseapp.com",
+            projectId: "tedx-959ab",
+            storageBucket: "tedx-959ab.firebasestorage.app",
+            messagingSenderId: "470975416341",
+            appId: "1:470975416341:web:f8cdea8e4c05fd9da9661c",
+            measurementId: "G-53PPS0GT2L"
+        };
 
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
 
-    // Define volunteer role capacities
-    const capacities = {
-      "Media": 10,
-      "Publicity": 3,
-      "Protocol/Ushering": 5,
-      "Logistics/Technical": 6,
-      "Welfare": 3
-    };
+        // Define volunteer role capacities
+        const capacities = {
+            "Media": 10,
+            "Publicity": 3,
+            "Protocol/Ushering": 5,
+            "Logistics/Technical": 6,
+            "Welfare": 3
+        };
 
-    // Toggle volunteer options display
-    const volunteerCheckbox = document.getElementById("volunteer-checkbox");
-    const volunteerOptions = document.getElementById("volunteer-options");
-    volunteerCheckbox.addEventListener("change", () => {
-      if (volunteerCheckbox.checked) {
-        volunteerOptions.classList.remove("hidden");
-      } else {
-        volunteerOptions.classList.add("hidden");
-      }
-    });
-
-    // Handle form submission
-    document.getElementById("registration-form").addEventListener("submit", async (event) => {
-      event.preventDefault();
-
-      // Retrieve form values
-      const registrationId = document.getElementById("registration-id").value.trim();
-      if (!registrationId) {
-        alert("Registration ID is required. Contact the admin if you don't have one.");
-        return;
-      }
-
-      // Query Firestore for document whose field 'id' matches the entered registrationId
-      const q = query(collection(db, "generated_ids"), where("id", "==", registrationId));
-      const snapshot = await getDocs(q);
-      if (snapshot.empty) {
-        alert("Registration ID not found. Please contact admin: +234 814 579 9691");
-        return;
-      }
-      
-      // Use the first matching document
-      const docSnap = snapshot.docs[0];
-      const docRef = docSnap.ref;
-      const docData = docSnap.data();
-
-      // Prevent updates if registration already exists (firstName is set)
-      if (docData.firstName) {
-        alert("Registration already completed. The name cannot be updated. If there was a mistake, contact +2347087948104");
-        return;
-      }
-
-      // Gather other form data
-      const firstName = document.getElementById("first-name").value.trim();
-      const lastName = document.getElementById("last-name").value.trim();
-      const level = document.getElementById("level").value.trim();
-      const phoneNumber = document.getElementById("phone-number").value.trim();
-      const email = document.getElementById("email").value.trim();
-      const department = document.getElementById("department").value.trim();
-
-      // Determine volunteer role if volunteering; otherwise, set volunteerRole to null.
-      const isVolunteer = volunteerCheckbox.checked;
-      const volunteerRole = isVolunteer
-        ? document.getElementById("volunteer-role").value
-        : null;
-
-      // If volunteering, enforce capacity on volunteerRole using the "volunteers" collection.
-      if (volunteerRole) {
-        const capacityQuery = query(collection(db, "volunteers"), where("volunteerRole", "==", volunteerRole));
-        const capacitySnapshot = await getDocs(capacityQuery);
-        if (capacitySnapshot.size >= capacities[volunteerRole]) {
-          alert(`Registration for ${volunteerRole} is full.`);
-          return;
-        }
-      }
-
-      try {
-        // Update the registration document in "generated_ids" with all the form data.
-        await updateDoc(docRef, {
-          firstName,
-          lastName,
-          level,
-          phoneNumber,
-          email,
-          department,
-          volunteerRole,
-          registeredAt: new Date()
+        // Toggle volunteer options display
+        const volunteerCheckbox = document.getElementById("volunteer-checkbox");
+        const volunteerOptions = document.getElementById("volunteer-options");
+        volunteerCheckbox.addEventListener("change", () => {
+            if (volunteerCheckbox.checked) {
+                volunteerOptions.classList.remove("hidden");
+            } else {
+                volunteerOptions.classList.add("hidden");
+            }
         });
 
-        // If volunteering, add a new document in the "volunteers" collection.
-        if (volunteerRole) {
-          await addDoc(collection(db, "volunteers"), {
-            firstName,
-            lastName,
-            volunteerRole,
-            createdAt: new Date()
-          });
-        }
+        // Handle form submission
+        document.getElementById("registration-form").addEventListener("submit", async (event) => {
+            event.preventDefault();
 
-        alert("Registration successful!");
+            // Retrieve form values
+            const registrationId = document.getElementById("registration-id").value.trim();
+            if (!registrationId) {
+                alert("Registration ID is required. Contact the admin if you don't have one.");
+                return;
+            }
 
-        // Clear any previous QR code and generate a new one.
-        document.getElementById("qr-code").innerHTML = "";
-        new QRCode(document.getElementById("qr-code"), {
-          text: `Name: ${firstName} ${lastName}\nDepartment: ${department || "N/A"}\nVolunteer Role: ${volunteerRole || "None"}`,
-          width: 128,
-          height: 128,
+            // Query Firestore for document whose field 'id' matches the entered registrationId
+            const q = query(collection(db, "generated_ids"), where("id", "==", registrationId));
+            const snapshot = await getDocs(q);
+            if (snapshot.empty) {
+                alert("Registration ID not found. Please contact admin: +234 814 579 9691");
+                return;
+            }
+
+            // Use the first matching document
+            const docSnap = snapshot.docs[0];
+            const docRef = docSnap.ref;
+            const docData = docSnap.data();
+
+            // Prevent updates if registration already exists (firstName is set)
+            if (docData.firstName) {
+                alert("Registration already completed. The name cannot be updated. If there was a mistake, contact +2347087948104");
+                return;
+            }
+
+            // Gather other form data
+            const firstName = document.getElementById("first-name").value.trim();
+            const lastName = document.getElementById("last-name").value.trim();
+            const level = document.getElementById("level").value.trim();
+            const phoneNumber = document.getElementById("phone-number").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const department = document.getElementById("department").value.trim();
+
+            // Determine volunteer role if volunteering; otherwise, set volunteerRole to null.
+            const isVolunteer = volunteerCheckbox.checked;
+            const volunteerRole = isVolunteer
+                ? document.getElementById("volunteer-role").value
+                : null;
+
+            // If volunteering, enforce capacity on volunteerRole using the "volunteers" collection.
+            if (volunteerRole) {
+                const capacityQuery = query(collection(db, "volunteers"), where("volunteerRole", "==", volunteerRole));
+                const capacitySnapshot = await getDocs(capacityQuery);
+                if (capacitySnapshot.size >= capacities[volunteerRole]) {
+                    alert(`Registration for ${volunteerRole} is full.`);
+                    return;
+                }
+            }
+
+            try {
+                // Update the registration document in "generated_ids" with all the form data.
+                await updateDoc(docRef, {
+                    firstName,
+                    lastName,
+                    level,
+                    phoneNumber,
+                    email,
+                    department,
+                    volunteerRole,
+                    registeredAt: new Date()
+                });
+
+                // If volunteering, add a new document in the "volunteers" collection.
+                if (volunteerRole) {
+                    await addDoc(collection(db, "volunteers"), {
+                        firstName,
+                        lastName,
+                        volunteerRole,
+                        createdAt: new Date()
+                    });
+                }
+
+                alert("Registration successful!");
+
+                // Clear any previous QR code and generate a new one.
+                document.getElementById("qr-code").innerHTML = "";
+                new QRCode(document.getElementById("qr-code"), {
+                    text: `Name: ${firstName} ${lastName}\nDepartment: ${department || "N/A"}\nVolunteer Role: ${volunteerRole || "None"}`,
+                    width: 128,
+                    height: 128,
+                });
+            } catch (error) {
+                console.error("Error updating document: ", error);
+                alert("Failed to register. Please try again.");
+            }
         });
-      } catch (error) {
-        console.error("Error updating document: ", error);
-        alert("Failed to register. Please try again.");
-      }
-    });
-  </script>
+    </script>
 </body>
+
 </html>
