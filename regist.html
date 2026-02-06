@@ -13,8 +13,8 @@
     <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- QRCode library: qrcodejs renders QR in container (works in all browsers) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <!-- QRCode library: must load before registration script so window.QRCode is available -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" crossorigin="anonymous"></script>
     <style>
         .error-message {
             color: #dc2626;
@@ -64,6 +64,8 @@
             color: #6b7280;
             margin-top: 0.25rem;
         }
+        #qr-section.hidden { display: none !important; }
+        #qr-section:not(.hidden) { display: block !important; }
     </style>
 </head>
 
@@ -299,15 +301,17 @@
             </button>
         </form>
 
-        <!-- QR Code Section -->
-        <div id="qr-section" class="mt-6 hidden">
-            <div class="border-t pt-6">
+        <!-- QR Code Section (shown after successful registration) -->
+        <div id="qr-section" class="mt-6 hidden" style="display: none;">
+            <div class="border-t border-gray-200 pt-6">
                 <h3 class="text-lg font-semibold text-center mb-4">Your Registration QR Code</h3>
+                <p class="text-center text-gray-600 text-sm mb-4">Show this at check-in. You can download it below.</p>
                 <div class="flex flex-col items-center">
-                    <div id="qr-code" class="mb-4 p-4 bg-white border rounded-lg"></div>
+                    <div id="qr-code" class="mb-4 p-4 bg-white border border-gray-200 rounded-lg" style="min-height: 260px;"></div>
                     <button 
+                        type="button"
                         id="download-qr-btn" 
-                        class="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded transition duration-200"
+                        class="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded transition duration-200 cursor-pointer"
                         aria-label="Download QR code"
                     >
                         Download QR Code
@@ -637,23 +641,31 @@
                 const qrContainer = document.getElementById("qr-code");
                 qrContainer.innerHTML = "";
                 try {
-                    new QRCode(qrContainer, {
-                        text: qrText,
-                        width: 256,
-                        height: 256,
-                        colorDark: "#000000",
-                        colorLight: "#ffffff"
-                    });
+                    var QRCodeFn = window.QRCode;
+                    if (typeof QRCodeFn === "function") {
+                        new QRCodeFn(qrContainer, {
+                            text: qrText,
+                            width: 256,
+                            height: 256,
+                            colorDark: "#000000",
+                            colorLight: "#ffffff"
+                        });
+                    } else {
+                        throw new Error("QRCode library not loaded. Check your connection.");
+                    }
                 } catch (e) {
                     console.error("QR generation failed:", e);
                     qrContainer.innerHTML = "<p class=\"text-gray-600\">QR code could not be generated. Save your Registration ID: <strong>" + registrationId + "</strong></p>";
                 }
 
-                // Show success message then QR section
+                // Show success message then QR section (force visible: module runs after DOM)
                 successMessage.classList.remove("hidden");
+                successMessage.style.display = "";
                 successMessage.scrollIntoView({ behavior: "smooth", block: "center" });
 
                 qrSection.classList.remove("hidden");
+                qrSection.style.display = "block";
+                downloadQrBtn.style.display = "";
                 setTimeout(function () {
                     qrSection.scrollIntoView({ behavior: "smooth", block: "nearest" });
                 }, 400);
