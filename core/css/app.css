@@ -513,6 +513,16 @@ section h4.text-center {
     padding-bottom: 15px;
 }
 
+#footer .footer-social {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 4px;
+}
+#footer .footer-social:hover {
+    color: #e31837;
+    text-decoration: underline;
+}
+
 .quicklinks{
     list-style-type: none;
 }

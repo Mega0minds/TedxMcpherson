@@ -4,82 +4,302 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Register Here</title>
+    <link rel="icon" type="image/x-icon" href="./images/general/logo.png">
+    <title>Register for TEDxMcpherson U</title>
+    <!-- Bootstrap CSS for Navbar -->
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="core/css/app.css">
+    <link rel="stylesheet" href="app/css/app.css">
+    <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Load the QRCode library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <!-- SMTP (optional) -->
-    <script src="https://smtpjs.com/v3/smtp.js"></script>
+    <style>
+        .error-message {
+            color: #dc2626;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+        .success-message {
+            color: #16a34a;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            padding: 0.75rem;
+            background-color: #f0fdf4;
+            border: 1px solid #86efac;
+            border-radius: 0.375rem;
+        }
+        .input-error {
+            border-color: #dc2626 !important;
+        }
+        .spinner {
+            border: 2px solid #f3f4f6;
+            border-top: 2px solid #ffffff;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-right: 8px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .helper-text {
+            font-size: 0.75rem;
+            color: #6b7280;
+            margin-top: 0.25rem;
+        }
+    </style>
 </head>
 
-<body class="bg-gray-100 text-black p-6">
-    <div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow">
-        <h2 class="text-2xl font-bold text-red-600 text-center">Register for TEDxMcpherson U</h2>
+<body class="bg-gray-100 text-black min-h-screen">
+    <!-- Simple Navigation Header -->
+    <div class="bg-black shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="index.html" class="flex items-center text-white hover:text-red-600 transition-colors">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                    </svg>
+                    <span class="font-semibold">Back to Home</span>
+                </a>
+                <a href="index.html" class="flex items-center">
+                    <img src="images/general/logo.png" alt="TEDxMcpherson U Logo" class="h-12">
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="p-6">
+        <div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-lg">
+        <h2 class="text-2xl font-bold text-red-600 text-center mb-2">Register for TEDxMcpherson U</h2>
         
-        <form id="registration-form" class="mt-6">
-            
-            <h4 class="text-1xl font-bold text-red-600 text-center">Contact admin: +234 814 579 9691 || +234 912 556 8548 || +234 907 943 7476 for Registration ID</h4>
-            <!-- Registration ID (required) -->
-            <label class="block">Registration ID</label>
-            <input type="text" id="registration-id" class="w-full border p-2 rounded mb-3"/>
+        <!-- Info Banner -->
+        <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6">
+            <div class="flex">
+                <div class="flex-shrink-0">
+                    <svg class="h-5 w-5 text-blue-500" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                    </svg>
+                </div>
+                <div class="ml-3">
+                    <p class="text-sm text-blue-700">
+                        <strong>Need a Registration ID?</strong> Contact admin: 
+                        <a href="tel:+2349040124836" class="underline">+234 904 012 4836</a>
+                    </p>
+                </div>
+            </div>
+        </div>
 
-            <label class="block">First Name</label>
-            <input type="text" id="first-name" class="w-full border p-2 rounded mb-3" required />
+        <!-- Success Message (hidden by default) -->
+        <div id="success-message" class="success-message hidden mb-4">
+            <div class="flex items-center">
+                <svg class="h-5 w-5 text-green-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <span>Registration successful! Your QR code is displayed below.</span>
+            </div>
+        </div>
 
-            <label class="block">Last Name</label>
-            <input type="text" id="last-name" class="w-full border p-2 rounded mb-3" required />
-
-            <label class="block">Level</label>
-            <input type="number" id="level" class="w-full border p-2 rounded mb-3" required />
-
-            <!-- New Input: Phone Number -->
-            <label class="block">Phone Number</label>
-            <input type="tel" id="phone-number" class="w-full border p-2 rounded mb-3" required />
-
-            <label class="block">Email</label>
-            <input type="email" id="email" class="w-full border p-2 rounded mb-3" required />
-
-            <!-- New Input: Department (as text) -->
-            <label class="block">Department</label>
-            <input type="text" id="department" class="w-full border p-2 rounded mb-3" required />
-
-            <!-- Volunteer checkbox and volunteer role dropdown -->
-            <div class="mt-4">
-                <label class="inline-flex items-center">
-                    <input type="checkbox" id="volunteer-checkbox" class="form-checkbox text-red-600" />
-                    <span class="ml-2 font-semibold">I want to volunteer</span>
+        <form id="registration-form" class="mt-6" novalidate>
+            <!-- Registration ID -->
+            <div class="mb-4">
+                <label for="registration-id" class="block text-sm font-medium text-gray-700 mb-1">
+                    Registration ID <span class="text-red-600">*</span>
                 </label>
+                <input 
+                    type="text" 
+                    id="registration-id" 
+                    name="registration-id"
+                    class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent" 
+                    placeholder="Enter your registration ID"
+                    required
+                    aria-describedby="registration-id-error registration-id-helper"
+                />
+                <p id="registration-id-helper" class="helper-text">Enter the registration ID provided by the admin</p>
+                <p id="registration-id-error" class="error-message hidden" role="alert"></p>
+            </div>
+
+            <!-- First Name -->
+            <div class="mb-4">
+                <label for="first-name" class="block text-sm font-medium text-gray-700 mb-1">
+                    First Name <span class="text-red-600">*</span>
+                </label>
+                <input 
+                    type="text" 
+                    id="first-name" 
+                    name="first-name"
+                    class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent" 
+                    placeholder="Enter your first name"
+                    required
+                    pattern="[A-Za-z\s]{2,}"
+                    aria-describedby="first-name-error"
+                />
+                <p id="first-name-error" class="error-message hidden" role="alert"></p>
+            </div>
+
+            <!-- Last Name -->
+            <div class="mb-4">
+                <label for="last-name" class="block text-sm font-medium text-gray-700 mb-1">
+                    Last Name <span class="text-red-600">*</span>
+                </label>
+                <input 
+                    type="text" 
+                    id="last-name" 
+                    name="last-name"
+                    class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent" 
+                    placeholder="Enter your last name"
+                    required
+                    pattern="[A-Za-z\s]{2,}"
+                    aria-describedby="last-name-error"
+                />
+                <p id="last-name-error" class="error-message hidden" role="alert"></p>
+            </div>
+
+            <!-- Level -->
+            <div class="mb-4">
+                <label for="level" class="block text-sm font-medium text-gray-700 mb-1">
+                    Level <span class="text-red-600">*</span>
+                </label>
+                <input 
+                    type="number" 
+                    id="level" 
+                    name="level"
+                    class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent" 
+                    placeholder="e.g., 100, 200, 300, 400"
+                    min="100"
+                    max="500"
+                    required
+                    aria-describedby="level-error level-helper"
+                />
+                <p id="level-helper" class="helper-text">Enter your current academic level (100-500)</p>
+                <p id="level-error" class="error-message hidden" role="alert"></p>
+            </div>
+
+            <!-- Phone Number -->
+            <div class="mb-4">
+                <label for="phone-number" class="block text-sm font-medium text-gray-700 mb-1">
+                    Phone Number <span class="text-red-600">*</span>
+                </label>
+                <input 
+                    type="tel" 
+                    id="phone-number" 
+                    name="phone-number"
+                    class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent" 
+                    placeholder="+234 800 000 0000"
+                    pattern="[+]?[0-9\s-]{10,15}"
+                    required
+                    aria-describedby="phone-number-error phone-number-helper"
+                />
+                <p id="phone-number-helper" class="helper-text">Include country code (e.g., +234 800 000 0000)</p>
+                <p id="phone-number-error" class="error-message hidden" role="alert"></p>
+            </div>
+
+            <!-- Email -->
+            <div class="mb-4">
+                <label for="email" class="block text-sm font-medium text-gray-700 mb-1">
+                    Email <span class="text-red-600">*</span>
+                </label>
+                <input 
+                    type="email" 
+                    id="email" 
+                    name="email"
+                    class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent" 
+                    placeholder="your.email@example.com"
+                    required
+                    aria-describedby="email-error"
+                />
+                <p id="email-error" class="error-message hidden" role="alert"></p>
+            </div>
+
+            <!-- Department -->
+            <div class="mb-4">
+                <label for="department" class="block text-sm font-medium text-gray-700 mb-1">
+                    Department <span class="text-red-600">*</span>
+                </label>
+                <input 
+                    type="text" 
+                    id="department" 
+                    name="department"
+                    class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent" 
+                    placeholder="Enter your department"
+                    required
+                    aria-describedby="department-error"
+                />
+                <p id="department-error" class="error-message hidden" role="alert"></p>
+            </div>
+
+            <!-- Volunteer Section -->
+            <!-- <div class="mb-4 p-4 bg-gray-50 rounded-lg">
+                <label class="inline-flex items-center cursor-pointer">
+                    <input 
+                        type="checkbox" 
+                        id="volunteer-checkbox" 
+                        name="volunteer-checkbox"
+                        class="w-4 h-4 text-red-600 border-gray-300 rounded focus:ring-red-600"
+                        aria-describedby="volunteer-helper"
+                    />
+                    <span class="ml-2 font-semibold text-gray-700">I want to volunteer</span>
+                </label>
+                <p id="volunteer-helper" class="helper-text mt-1 ml-6">Check this box if you're interested in volunteering</p>
+                
                 <div id="volunteer-options" class="hidden mt-4">
-                    <label>Select Volunteer Role</label>
-                    <select id="volunteer-role" class="w-full border p-2 rounded">
+                    <label for="volunteer-role" class="block text-sm font-medium text-gray-700 mb-1">
+                        Select Volunteer Role <span class="text-red-600">*</span>
+                    </label>
+                    <select 
+                        id="volunteer-role" 
+                        name="volunteer-role"
+                        class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent"
+                        aria-describedby="volunteer-role-error volunteer-role-helper"
+                    >
+                        <option value="">-- Select a role --</option>
                         <option value="Media">Media</option>
                         <option value="Publicity">Publicity</option>
                         <option value="Protocol/Ushering">Protocol/Ushering</option>
                         <option value="Logistics/Technical">Logistics/Technical</option>
                         <option value="Welfare">Welfare</option>
                     </select>
+                    <p id="volunteer-role-helper" class="helper-text mt-1">Select your preferred volunteer role</p>
+                    <p id="volunteer-role-error" class="error-message hidden" role="alert"></p>
                 </div>
-            </div>
+            </div> -->
 
-            <button type="submit" id="submit-btn" class="w-full mt-4 bg-red-600 text-white p-2 rounded">
-                Submit
+            <!-- Submit Button -->
+            <button 
+                type="submit" 
+                id="submit-btn" 
+                class="w-full mt-4 bg-red-600 hover:bg-red-700 text-white font-semibold p-3 rounded transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                aria-label="Submit registration form"
+            >
+                <span id="submit-text">Submit Registration</span>
+                <span id="submit-spinner" class="spinner hidden"></span>
             </button>
         </form>
 
-        <!-- Canvas for QR Code -->
-        <div class="mt-4 flex justify-center">
-            <div id="qr-code"></div>
+        <!-- QR Code Section -->
+        <div id="qr-section" class="mt-6 hidden">
+            <div class="border-t pt-6">
+                <h3 class="text-lg font-semibold text-center mb-4">Your Registration QR Code</h3>
+                <div class="flex flex-col items-center">
+                    <div id="qr-code" class="mb-4 p-4 bg-white border rounded-lg"></div>
+                    <button 
+                        id="download-qr-btn" 
+                        class="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded transition duration-200"
+                        aria-label="Download QR code"
+                    >
+                        Download QR Code
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
-<script>
-    alert("Contact +234 912 556 8548 || +234 907 943 7476 for ID registeration key")
-</script>
+
     <!-- Firebase & Firestore Scripts -->
     <script type="module">
-
-
-    
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
         import {
             getFirestore,
@@ -115,73 +335,230 @@
             "Welfare": 3
         };
 
-        // Toggle volunteer options display
+        // DOM Elements
+        const form = document.getElementById("registration-form");
+        const submitBtn = document.getElementById("submit-btn");
+        const submitText = document.getElementById("submit-text");
+        const submitSpinner = document.getElementById("submit-spinner");
         const volunteerCheckbox = document.getElementById("volunteer-checkbox");
         const volunteerOptions = document.getElementById("volunteer-options");
-        volunteerCheckbox.addEventListener("change", () => {
-            if (volunteerCheckbox.checked) {
-                volunteerOptions.classList.remove("hidden");
-            } else {
-                volunteerOptions.classList.add("hidden");
+        const volunteerRoleSelect = document.getElementById("volunteer-role");
+        const successMessage = document.getElementById("success-message");
+        const qrSection = document.getElementById("qr-section");
+        const downloadQrBtn = document.getElementById("download-qr-btn");
+
+        // Utility Functions
+        function showError(fieldId, message) {
+            const errorElement = document.getElementById(`${fieldId}-error`);
+            const inputElement = document.getElementById(fieldId);
+            if (errorElement && inputElement) {
+                errorElement.textContent = message;
+                errorElement.classList.remove("hidden");
+                inputElement.classList.add("input-error");
             }
-        });
+        }
 
-        // Handle form submission
-        document.getElementById("registration-form").addEventListener("submit", async (event) => {
-            event.preventDefault();
+        function clearError(fieldId) {
+            const errorElement = document.getElementById(`${fieldId}-error`);
+            const inputElement = document.getElementById(fieldId);
+            if (errorElement && inputElement) {
+                errorElement.classList.add("hidden");
+                errorElement.textContent = "";
+                inputElement.classList.remove("input-error");
+            }
+        }
 
-            // Retrieve form values
+        function clearAllErrors() {
+            const fields = [
+                "registration-id", "first-name", "last-name", "level",
+                "phone-number", "email", "department", "volunteer-role"
+            ];
+            fields.forEach(clearError);
+        }
+
+        function setLoading(isLoading) {
+            submitBtn.disabled = isLoading;
+            if (isLoading) {
+                submitText.textContent = "Submitting...";
+                submitSpinner.classList.remove("hidden");
+            } else {
+                submitText.textContent = "Submit Registration";
+                submitSpinner.classList.add("hidden");
+            }
+        }
+
+        function validateForm() {
+            clearAllErrors();
+            let isValid = true;
+
+            // Registration ID
             const registrationId = document.getElementById("registration-id").value.trim();
             if (!registrationId) {
-                alert("Registration ID is required. Contact the admin if you don't have one -- +234 814 579 9691");
-                return;
+                showError("registration-id", "Registration ID is required");
+                isValid = false;
             }
 
-            // Query Firestore for document whose field 'id' matches the entered registrationId
-            const q = query(collection(db, "generated_ids"), where("id", "==", registrationId));
-            const snapshot = await getDocs(q);
-            if (snapshot.empty) {
-                alert("Registration ID not found. Please contact admin: +234 814 579 9691");
-                return;
-            }
-
-            // Use the first matching document
-            const docSnap = snapshot.docs[0];
-            const docRef = docSnap.ref;
-            const docData = docSnap.data();
-
-            // Prevent updates if registration already exists (firstName is set)
-            if (docData.firstName) {
-                alert("Registration already completed. The name cannot be updated. If there was a mistake, contact +234 708 794 8104");
-                return;
-            }
-
-            // Gather other form data
+            // First Name
             const firstName = document.getElementById("first-name").value.trim();
+            if (!firstName) {
+                showError("first-name", "First name is required");
+                isValid = false;
+            } else if (firstName.length < 2) {
+                showError("first-name", "First name must be at least 2 characters");
+                isValid = false;
+            }
+
+            // Last Name
             const lastName = document.getElementById("last-name").value.trim();
+            if (!lastName) {
+                showError("last-name", "Last name is required");
+                isValid = false;
+            } else if (lastName.length < 2) {
+                showError("last-name", "Last name must be at least 2 characters");
+                isValid = false;
+            }
+
+            // Level
             const level = document.getElementById("level").value.trim();
-            const phoneNumber = document.getElementById("phone-number").value.trim();
-            const email = document.getElementById("email").value.trim();
-            const department = document.getElementById("department").value.trim();
-
-            // Determine volunteer role if volunteering; otherwise, set volunteerRole to null.
-            const isVolunteer = volunteerCheckbox.checked;
-            const volunteerRole = isVolunteer
-                ? document.getElementById("volunteer-role").value
-                : null;
-
-            // If volunteering, enforce capacity on volunteerRole using the "volunteers" collection.
-            if (volunteerRole) {
-                const capacityQuery = query(collection(db, "volunteers"), where("volunteerRole", "==", volunteerRole));
-                const capacitySnapshot = await getDocs(capacityQuery);
-                if (capacitySnapshot.size >= capacities[volunteerRole]) {
-                    alert(`Registration for ${volunteerRole} is full.`);
-                    return;
+            if (!level) {
+                showError("level", "Level is required");
+                isValid = false;
+            } else {
+                const levelNum = parseInt(level);
+                if (isNaN(levelNum) || levelNum < 100 || levelNum > 500) {
+                    showError("level", "Level must be between 100 and 500");
+                    isValid = false;
                 }
             }
 
+            // Phone Number
+            const phoneNumber = document.getElementById("phone-number").value.trim();
+            if (!phoneNumber) {
+                showError("phone-number", "Phone number is required");
+                isValid = false;
+            } else if (phoneNumber.length < 10) {
+                showError("phone-number", "Please enter a valid phone number");
+                isValid = false;
+            }
+
+            // Email
+            const email = document.getElementById("email").value.trim();
+            if (!email) {
+                showError("email", "Email is required");
+                isValid = false;
+            } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                showError("email", "Please enter a valid email address");
+                isValid = false;
+            }
+
+            // Department
+            const department = document.getElementById("department").value.trim();
+            if (!department) {
+                showError("department", "Department is required");
+                isValid = false;
+            }
+
+            // Volunteer Role (if volunteering)
+            if (volunteerCheckbox.checked) {
+                const volunteerRole = volunteerRoleSelect.value;
+                if (!volunteerRole) {
+                    showError("volunteer-role", "Please select a volunteer role");
+                    isValid = false;
+                }
+            }
+
+            return isValid;
+        }
+
+        // Toggle volunteer options display
+        volunteerCheckbox.addEventListener("change", () => {
+            if (volunteerCheckbox.checked) {
+                volunteerOptions.classList.remove("hidden");
+                volunteerRoleSelect.setAttribute("required", "required");
+            } else {
+                volunteerOptions.classList.add("hidden");
+                volunteerRoleSelect.removeAttribute("required");
+                volunteerRoleSelect.value = "";
+                clearError("volunteer-role");
+            }
+        });
+
+        // Real-time validation on blur
+        const inputs = form.querySelectorAll("input, select");
+        inputs.forEach(input => {
+            input.addEventListener("blur", () => {
+                if (input.value.trim() || input.hasAttribute("required")) {
+                    validateForm();
+                }
+            });
+        });
+
+        // Handle form submission
+        form.addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            if (!validateForm()) {
+                // Scroll to first error
+                const firstError = form.querySelector(".input-error");
+                if (firstError) {
+                    firstError.scrollIntoView({ behavior: "smooth", block: "center" });
+                    firstError.focus();
+                }
+                return;
+            }
+
+            setLoading(true);
+            clearAllErrors();
+
             try {
-                // Update the registration document in "generated_ids" with all the form data.
+                // Retrieve form values
+                const registrationId = document.getElementById("registration-id").value.trim();
+                const firstName = document.getElementById("first-name").value.trim();
+                const lastName = document.getElementById("last-name").value.trim();
+                const level = document.getElementById("level").value.trim();
+                const phoneNumber = document.getElementById("phone-number").value.trim();
+                const email = document.getElementById("email").value.trim();
+                const department = document.getElementById("department").value.trim();
+                const isVolunteer = volunteerCheckbox.checked;
+                const volunteerRole = isVolunteer ? volunteerRoleSelect.value : null;
+
+                // Query Firestore for document whose field 'id' matches the entered registrationId
+                const q = query(collection(db, "generated_ids"), where("id", "==", registrationId));
+                const snapshot = await getDocs(q);
+                
+                if (snapshot.empty) {
+                    showError("registration-id", "Registration ID not found. Please contact admin: +234 904 012 4836");
+                    setLoading(false);
+                    document.getElementById("registration-id").scrollIntoView({ behavior: "smooth", block: "center" });
+                    return;
+                }
+
+                // Use the first matching document
+                const docSnap = snapshot.docs[0];
+                const docRef = docSnap.ref;
+                const docData = docSnap.data();
+
+                // Prevent updates if registration already exists
+                if (docData.firstName) {
+                    showError("registration-id", "This registration ID has already been used. If there was a mistake, contact +234 904 012 4836");
+                    setLoading(false);
+                    document.getElementById("registration-id").scrollIntoView({ behavior: "smooth", block: "center" });
+                    return;
+                }
+
+                // If volunteering, check capacity
+                if (volunteerRole) {
+                    const capacityQuery = query(collection(db, "volunteers"), where("volunteerRole", "==", volunteerRole));
+                    const capacitySnapshot = await getDocs(capacityQuery);
+                    if (capacitySnapshot.size >= capacities[volunteerRole]) {
+                        showError("volunteer-role", `Registration for ${volunteerRole} is full. Please select another role.`);
+                        setLoading(false);
+                        volunteerRoleSelect.scrollIntoView({ behavior: "smooth", block: "center" });
+                        return;
+                    }
+                }
+
+                // Update the registration document
                 await updateDoc(docRef, {
                     firstName,
                     lastName,
@@ -193,7 +570,7 @@
                     registeredAt: new Date()
                 });
 
-                // If volunteering, add a new document in the "volunteers" collection.
+                // If volunteering, add to volunteers collection
                 if (volunteerRole) {
                     await addDoc(collection(db, "volunteers"), {
                         firstName,
@@ -203,21 +580,60 @@
                     });
                 }
 
-                alert("Registration successful!");
+                // Show success message
+                successMessage.classList.remove("hidden");
+                successMessage.scrollIntoView({ behavior: "smooth", block: "center" });
 
-                // Clear any previous QR code and generate a new one.
+                // Generate QR code
                 document.getElementById("qr-code").innerHTML = "";
                 new QRCode(document.getElementById("qr-code"), {
-                    text: `Name: ${firstName} ${lastName}\nDepartment: ${department || "N/A"}\nVolunteer Role: ${volunteerRole || "None"}`,
-                    width: 128,
-                    height: 128,
+                    text: `Name: ${firstName} ${lastName}\nDepartment: ${department}\nVolunteer Role: ${volunteerRole || "None"}\nRegistration ID: ${registrationId}`,
+                    width: 256,
+                    height: 256,
+                    colorDark: "#000000",
+                    colorLight: "#ffffff",
+                    correctLevel: QRCode.CorrectLevel.H
                 });
+
+                // Show QR section
+                qrSection.classList.remove("hidden");
+                qrSection.scrollIntoView({ behavior: "smooth", block: "nearest" });
+
+                // Disable form
+                form.querySelectorAll("input, select, button").forEach(element => {
+                    element.disabled = true;
+                });
+
             } catch (error) {
                 console.error("Error updating document: ", error);
-                alert("Failed to register. Please try again.");
+                
+                let errorMessage = "Failed to register. Please try again.";
+                if (error.code === "unavailable") {
+                    errorMessage = "Network error. Please check your connection and try again.";
+                } else if (error.code === "permission-denied") {
+                    errorMessage = "Permission denied. Please contact admin.";
+                }
+
+                // Show error alert
+                alert(errorMessage);
+            } finally {
+                setLoading(false);
+            }
+        });
+
+        // Download QR Code functionality
+        downloadQrBtn.addEventListener("click", () => {
+            const qrCanvas = document.querySelector("#qr-code canvas");
+            if (qrCanvas) {
+                const url = qrCanvas.toDataURL("image/png");
+                const link = document.createElement("a");
+                link.download = `TEDxMcpherson-Registration-QR.png`;
+                link.href = url;
+                link.click();
             }
         });
     </script>
+
 </body>
 
 </html>
