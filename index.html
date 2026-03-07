@@ -29,10 +29,15 @@
         .testimonies-dots { display: flex; gap: 10px; justify-content: center; }
         .testimonies-dots span { width: 10px; height: 10px; border-radius: 50%; background: #555; cursor: pointer; transition: background 0.2s; }
         .testimonies-dots span.active { background: #e31837; }
-        /* Team section: grid and expandable rest */
+        /* Team section: grid and expandable rest; mobile: single column to avoid gaps/cut-off */
         #team .team-row { margin-bottom: 30px; }
         #team .team-card { margin-bottom: 25px; }
         #team .team-toggle-wrap { margin-top: 15px; margin-bottom: 10px; }
+        @media (max-width: 767px) {
+            #team .team-row .team-card { width: 100%; max-width: 100%; flex: 0 0 100%; }
+            #team .team-row { display: block; }
+            #team .team-row .team-card { float: none; display: block; margin-left: auto; margin-right: auto; }
+        }
         /* Past speakers: text-only list, no images */
         .past-speakers-list { color: #141414; font-size: 1rem; line-height: 1.8; }
         .past-speakers-list li { padding: 0.5rem 0; border-bottom: 1px solid rgba(0,0,0,0.08); }
@@ -316,12 +321,7 @@
                         </div>
                         <p class="lead text-center utitle"> <small><b>Ademuyiwa Toluwani</b></small> <br/> <small> Design Lead </small></p>
                     </div>
-                    <!-- <div class="col-sm-3">
-                        <div class="imgwrap">
-                            <img src="./images/general/tolu.jpg" alt="Cherry" class="img img-circle img-thumbnail img-responsive center-block" width="100%">
-                        </div>
-                        <p class="lead text-center utitle"> Ademuyiwa Toluwani <br/> <small> Design Lead </small></p>
-                    </div> -->
+            </div>
             <div class="row">
                 <div class="col-sm-12 text-center team-toggle-wrap">
                     <a class="btn btn-black" href="team.html"> Meet rest of us </a>
