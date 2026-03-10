@@ -100,7 +100,9 @@
                 <div class="ml-3">
                     <p class="text-sm text-blue-700">
                         <strong>Need a Registration ID?</strong> Contact admin: 
-                        <a href="tel:+2349040124836" class="underline">+234 904 012 4836</a>
+                        <a href="tel:+2349040124836" class="underline">+234 904 012 4836</a>, 
+                        <a href="tel:+2348145799691" class="underline">08145799691</a>, 
+                        <a href="tel:+2348164108581" class="underline">+234 816 410 8581</a>
                     </p>
                 </div>
             </div>
@@ -564,7 +566,7 @@
                 const snapshot = await getDocs(q);
 
                 if (snapshot.empty) {
-                    const msg = "This Registration ID does not exist. Please get a valid ID from admin: +234 904 012 4836";
+                    const msg = "This Registration ID does not exist. Please get a valid ID from admin: +234 904 012 4836, 08145799691 or +234 816 410 8581";
                     showError("registration-id", msg);
                     showErrorBanner(msg);
                     setLoading(false);
@@ -578,7 +580,7 @@
                 const docData = docSnap.data();
 
                 if (docData.firstName) {
-                    const msg = "This Registration ID has already been used. If this is a mistake, contact +234 904 012 4836";
+                    const msg = "This Registration ID has already been used. If this is a mistake, contact +234 904 012 4836, 08145799691 or +234 816 410 8581";
                     showError("registration-id", msg);
                     showErrorBanner(msg);
                     setLoading(false);
